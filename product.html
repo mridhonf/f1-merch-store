@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F1 Merch Store | Products</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/style-product.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<script src="js/script.js"></script>
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="logo">F1<span>Merch</span></div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="products.html" class="active">Products</a></li>
+        <li><a href="cart.html">Cart <span id="cart-count">0</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== PRODUCTS SECTION ===== -->
+  <section class="products-section">
+  <h1>Our Merchandise</h1>
+<section class="products-container">
+  <div class="product-item">
+    <img src="Img/redbullcap.jpg" alt="Red Bull Cap">
+    <h3>Red Bull Racing Cap</h3>
+    <p>$35</p>
+    <button class="add-to-cart" data-name="Red Bull Racing Cap" data-price="35">Add to Cart</button>
+  </div>
+
+  <div class="product-item">
+    <img src="Img/Ferrari.jpg" alt="Ferrari Hoodie">
+    <h3>Ferrari Hoodie</h3>
+    <p>$85</p>
+    <button class="add-to-cart" data-name="Ferrari Hoodie" data-price="85">Add to Cart</button>
+  </div>
+
+  <div class="product-item">
+    <img src="Img/Merc.jpg" alt="Mercedes Team Shirt">
+    <h3>Mercedes Team Shirt</h3>
+    <p>$65</p>
+    <button class="add-to-cart" data-name="Mercedes Team Shirt" data-price="65">Add to Cart</button>
+  </div>
+</section>
+
+    <!-- Tambah produk lain dengan pola yang sama -->
+  </div>
+</section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>© 2025 F1 Merch Store | Design by Ridho</p>
+  </footer>
+  <div id="toast"></div>
+  <script>
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+  });
+</script>
+<script>
+  // Ambil semua tombol Add to Cart
+  const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+  addToCartButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      const name = button.dataset.name;
+      const price = parseFloat(button.dataset.price);
+
+      // Ambil cart dari localStorage, atau buat array kosong kalau belum ada
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      // Cek apakah item sudah ada di cart
+      const existingItem = cart.find(item => item.name === name);
+      if (existingItem) {
+        existingItem.quantity += 1; // tambah jumlah kalau sudah ada
+      } else {
+        cart.push({ name, price, quantity: 1 });
+      }
+
+      // Simpan kembali ke localStorage
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Update angka di navbar
+      updateCartCount();
+
+      // Tampilkan notifikasi kecil (toast)
+      showToast(`${name} added to cart!`);
+    });
+  });
+
+  // Update jumlah cart di navbar
+  function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const cartCount = document.getElementById('cart-count');
+    if (cartCount) cartCount.textContent = totalItems;
+  }
+
+  // Notifikasi (toast)
+  function showToast(message) {
+    let toast = document.getElementById('toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'toast';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2500);
+  }
+
+  // Jalankan saat halaman dimuat
+  window.addEventListener('load', updateCartCount);
+</script>
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loader-logo">F1<span>Merch</span></div>
+  <div class="loader-circle"></div>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>

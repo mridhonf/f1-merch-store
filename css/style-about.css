@@ -1,0 +1,81 @@
+/* ===== ABOUT PAGE STYLE ===== */
+
+.about-hero {
+  background: linear-gradient(to right, rgba(0,0,0,0.9), rgba(0,0,0,0.6)),
+  url('https://4kwallpapers.com/images/walls/thumbs_3t/15956.jpg') center/cover no-repeat;
+  height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 80px;
+}
+
+.about-text {
+  max-width: 600px;
+}
+
+.about-text h1 {
+  font-size: 2.8em;
+  color: var(--red-main);
+  margin-bottom: 20px;
+}
+
+.about-text p {
+  color: #ddd;
+  font-size: 1.1em;
+  line-height: 1.6;
+}
+
+/* Mission Section */
+.mission {
+  text-align: center;
+  padding: 80px 20px 60px;
+  background-color: #111;
+}
+
+.mission h2 {
+  font-size: 2em;
+  color: var(--red-main);
+  margin-bottom: 25px;
+}
+
+.mission p {
+  color: #ccc;
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1em;
+  line-height: 1.7;
+}
+
+/* ===== IMAGE GRID: responsive & centered ===== */
+.image-grid {
+  max-width: 1200px;          /* batasi lebar grid supaya tampil rapi */
+  margin: 0 auto;             /* center container */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+  background-color: transparent; /* biar sesuai tema, ubah kalau perlu */
+}
+
+.image-grid img {
+  width: 100%;
+  height: 320px;             /* sama tinggi tiap card untuk alignment */
+  object-fit: cover;         /* crop dengan rapi */
+  display: block;            /* hilangkan whitespace bawah gambar */
+  border-radius: 12px;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+  opacity: 0.95;
+}
+
+.image-grid img:hover {
+  transform: scale(1.03);
+  opacity: 1;
+}
+
+/* responsive tweak: lebih kecil di layar sempit */
+@media (max-width: 420px) {
+  .image-grid img {
+    height: 200px;
+  }
+}

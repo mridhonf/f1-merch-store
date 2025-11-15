@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F1 Merch Store | Checkout</title>
+
+  <!-- ===== CSS ===== -->
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/style-checkout.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- ===== NAVBAR ===== -->
+  <header class="navbar">
+    <div class="logo">F1<span>Merch</span></div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="products.html">Products</a></li>
+        <li><a href="cart.html">Cart <span id="cart-count">0</span></a></li>
+        <li><a href="checkout.html" class="active">Checkout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- ===== CHECKOUT SECTION ===== -->
+  <section class="checkout-section">
+    <h1>Checkout</h1>
+
+    <div class="checkout-container">
+      <!-- ===== LEFT: SHIPPING FORM ===== -->
+      <div class="checkout-form">
+        <h2>Shipping Details</h2>
+        <form id="checkout-form">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Enter your name" required>
+
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="example@email.com" required>
+
+          <label for="address">Address</label>
+          <input type="text" id="address" placeholder="Street, City, Zip" required>
+
+          <label for="country">Country</label>
+          <select id="country" required>
+            <option value="">Select country</option>
+            <option>Indonesia</option>
+            <option>Singapore</option>
+            <option>Malaysia</option>
+            <option>Japan</option>
+          </select>
+
+          <label for="payment">Payment Method</label>
+          <select id="payment" required>
+            <option value="">Select method</option>
+            <option>Credit Card</option>
+            <option>Bank Transfer</option>
+            <option>PayPal</option>
+          </select>
+
+          <!-- Tombol konfirmasi -->
+          <button type="submit" class="confirm-btn">Confirm Order</button>
+        </form>
+      </div>
+
+      <!-- ===== RIGHT: ORDER SUMMARY ===== -->
+      <div class="order-summary">
+        <h2>Order Summary</h2>
+
+        <!-- Elemen ini akan diisi otomatis dari localStorage -->
+        <div id="order-summary"></div>
+
+        <hr>
+
+        <!-- Total akhir -->
+        <div class="order-total">
+          <strong>Total:</strong>
+          <strong id="order-total">$0.00</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>© 2025 F1 Merch Store | Design by Ridho</p>
+  </footer>
+
+  <!-- ===== SCRIPT ===== -->
+  <script src="js/script.js"></script>
+
+  <!-- === Fade-in effect === -->
+  <script>
+    window.addEventListener('load', () => {
+      document.body.classList.add('loaded');
+    });
+  </script>
+
+  <!-- === Render Order Summary === -->
+  <script>
+    function renderOrderSummary() {
+      // Ambil data cart dari localStorage
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      // Ambil elemen yang akan diisi
+      const summaryList = document.getElementById('order-summary');
+      const totalEl = document.getElementById('order-total');
+
+      // Kosongkan tampilan dulu
+      summaryList.innerHTML = '';
+      let subtotal = 0;
+
+      // Kalau cart kosong
+      if (cart.length === 0) {
+        summaryList.innerHTML = '<p>Your cart is empty.</p>';
+        totalEl.textContent = '$0.00';
+        return;
+      }
+
+      // Loop setiap item cart dan tampilkan
+      cart.forEach(item => {
+        const total = item.price * item.quantity;
+        subtotal += total;
+
+        summaryList.innerHTML += `
+          <div class="summary-item">
+            <span>${item.name} × ${item.quantity}</span>
+            <span>$${total.toFixed(2)}</span>
+          </div>
+        `;
+      });
+
+      // Tampilkan subtotal
+      totalEl.textContent = '$' + subtotal.toFixed(2);
+    }
+
+    // Jalankan saat halaman dibuka
+    window.addEventListener('load', renderOrderSummary);
+
+    // Auto-refresh kalau localStorage berubah dari halaman lain (misal dari cart)
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'cart') renderOrderSummary();
+    });
+  </script>
+
+  <!-- === Form submit === -->
+  <script>
+    document.getElementById('checkout-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // cegah reload
+
+      // Hapus cart dari localStorage setelah checkout
+      localStorage.removeItem('cart');
+
+      // Redirect ke halaman sukses
+      window.location.href = 'success.html';
+    });
+  </script>
+  <!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loader-logo">F1<span>Merch</span></div>
+  <div class="loader-circle"></div>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>

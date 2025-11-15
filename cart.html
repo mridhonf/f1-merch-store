@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F1 Merch Store | Cart</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/style-cart.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- ===== LOADING SCREEN ===== -->
+<div id="loading-screen">
+  <div class="loader-logo">F1<span>Merch</span></div>
+  <div class="loader-circle"></div>
+</div>
+
+<!-- ===== NAVBAR ===== -->
+<header class="navbar">
+  <div class="logo">F1<span>Merch</span></div>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="product.html">Products</a></li>
+      <li><a href="cart.html">Cart <span id="cart-count">0</span></a></li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ===== CART SECTION ===== -->
+<section class="cart-section">
+  <h1>Your Shopping Cart</h1>
+
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="cart-body"></tbody>
+  </table>
+
+  <div class="cart-actions">
+    <button class="clear-cart-btn">Clear Cart</button>
+    <a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
+  </div>
+
+  <div class="cart-summary">
+    <p><strong>Subtotal:</strong> $<span id="cart-total">0</span></p>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <p>© 2025 F1 Merch Store | Design by Ridho</p>
+</footer>
+
+<!-- ===== CART SCRIPT ===== -->
+<script>
+  function renderCart() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const tbody = document.getElementById('cart-body');
+    const totalEl = document.getElementById('cart-total');
+    const countEl = document.getElementById('cart-count');
+
+    tbody.innerHTML = '';
+    let subtotal = 0;
+    let totalItems = 0;
+
+    if (cart.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Your cart is empty.</td></tr>';
+    } else {
+      cart.forEach((item, index) => {
+        const total = item.price * item.quantity;
+        subtotal += total;
+        totalItems += item.quantity;
+
+        tbody.innerHTML += `
+          <tr>
+            <td class="product-info">
+              <img src="${item.image}" alt="${item.name}">
+              <span>${item.name}</span>
+            </td>
+            <td>$${item.price}</td>
+            <td><input type="number" min="1" value="${item.quantity}" data-index="${index}" class="qty-input"></td>
+            <td>$${total}</td>
+            <td><button class="remove-btn" data-index="${index}">Remove</button></td>
+          </tr>`;
+      });
+    }
+
+    totalEl.textContent = subtotal.toFixed(2);
+    countEl.textContent = totalItems;
+  }
+
+  document.addEventListener('input', e => {
+    if (e.target.classList.contains('qty-input')) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const index = e.target.dataset.index;
+      cart[index].quantity = parseInt(e.target.value);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+  });
+
+  document.addEventListener('click', e => {
+    if (e.target.classList.contains('remove-btn')) {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const index = e.target.dataset.index;
+      cart.splice(index, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+  });
+
+  const clearBtn = document.querySelector('.clear-cart-btn');
+  if (clearBtn) {
+    clearBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear your cart?')) {
+        localStorage.removeItem('cart');
+        renderCart();
+        alert('Your cart has been cleared!');
+      }
+    });
+  }
+</script>
+
+<!-- ===== LOADING SCREEN SCRIPT (FINAL VERSION) ===== -->
+<script>
+window.addEventListener("load", () => {
+
+  const loader = document.getElementById("loading-screen");
+
+  // Biarkan loading muncul dulu
+  setTimeout(() => {
+    loader.classList.add("hide");
+  }, 800);   // loading tampil 0.8s → smooth & tidak freeze
+
+  // Fade-in halaman
+  setTimeout(() => {
+    document.body.classList.add("loaded");
+  }, 900);
+
+  // Render cart setelah semua smooth
+  setTimeout(() => {
+    renderCart();
+  }, 950);
+});
+</script>
+
+</body>
+</html>
