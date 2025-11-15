@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>F1 Merch Store</title>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/style-index.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo">F1<span>Merch</span></div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="product.html">Products</a></li>
+        <li><a href="cart.html">Cart <span id="cart-count">0</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+<section class="hero">
+  <video autoplay muted loop playsinline id="hero-video">
+    <source src="Img/F1V.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-content">
+    <h1>Official F1 Merchandise</h1>
+    <p>Gear up like a champion — experience the speed, style, and spirit of Formula 1.</p>
+    <a href="product.html" class="btn">Shop Now</a>
+  </div>
+</section>
+
+  <section class="featured">
+    <h2>Featured Collection</h2>
+  <section class="product-index">
+    <div class="product-grid">
+      <div class="product-card">
+        <img src="Img/redbullcap.jpg" alt="F1 Cap" />
+        <h3>F1 Cap</h3>
+        <p>$199</p>
+      </div>
+      <div class="product-card">
+        <img src="Img/Ferrari.jpg" alt="F1 Jacket" />
+        <h3>Team Jacket</h3>
+        <p>$89</p>
+      </div>
+      <div class="product-card">
+        <img src="Img/Merc.jpg" alt="F1 Shirt" />
+        <h3>F1 Classic Shirt</h3>
+        <p>$39</p>
+      </div>
+    </div>
+  </section>
+  </section>
+
+  <footer>
+    <p>© 2025 F1 Merch Store | Design by Ridho</p>
+  </footer>
+  <div id="toast"></div>
+  <script>
+  window.addEventListener('load', () => {
+    document.body.classList.add('loaded');
+  });
+</script>
+<!-- LOADING SCREEN -->
+<div id="loading-screen">
+  <div class="loader-logo">F1<span>Merch</span></div>
+  <div class="loader-circle"></div>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>
